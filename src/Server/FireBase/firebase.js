@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_PROJECT_ID,
-  storageBucket: import.meta.VITE_FIREBASE_STORAGE_BUCTET,
+  storageBucket: "farmers-web-8063a.appspot.com",
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGEING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_API_ID,
   measurementId: import.meta.env.VITE_MEASURE_ID,
