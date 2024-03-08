@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet";
 import { Button, Img, Text } from "../../../components/RHindex";
 import Sidebar4 from "components/CoustomerRealHomePage/Sidebar4";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { CloseSVG } from "assets/CCimages";
 import { signOut } from "firebase/auth";
@@ -31,12 +30,24 @@ export default function CustomerRealHome({ userProps }) {
   const [searchUsers, setSearchUsers] = useState([]);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home`)
-      .then(users => {
-        setUsers(users.data);
-        setSearchUsers(users.data);
-      })
-      .catch(err => console.log(err));
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home`);
+
+        // Check for successful response
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const users = await response.json();
+        setUsers(users);
+        setSearchUsers(users); // Update searchUsers as well
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const nvigate = useNavigate();

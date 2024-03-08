@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Img, Text, RatingBar, SelectBox } from "../../../components/CCindex";
 import Sidebar4 from "components/CategoryPage/Sidebar4";
-import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { Input } from "components";
 import { Link } from "react-router-dom";
@@ -26,12 +25,24 @@ export default function CategoriesPage({ userProps }) {
 
     // get total users
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home`).then(users => {
-            setUsers(users.data);
-        }).catch(err => console.log(err))
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home`);
 
+                // Check for successful response
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const users = await response.json();
+                setUsers(users);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
     }, []);
-
 
 
     // Header comps 

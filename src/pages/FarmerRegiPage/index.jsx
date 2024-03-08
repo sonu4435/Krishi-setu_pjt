@@ -4,7 +4,6 @@ import { Button, Img, Text } from "../../components/Findex";
 import Header from "../../components/FarmerRegistration/Header";
 import Sidebar4 from "../../components/FarmerRegistration/Sidebar4";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { storage } from "Server/FireBase/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as randomeCharecters } from "uuid";
@@ -47,35 +46,46 @@ export default function AddMenuPage({ userProps }) {
         setImgUrl('');
     }
 
-    const handleSendToDb = () => {
+    const handleSendToDb = async () => {
         setLoader(true);
-        const imageRef = ref(storage, `farmerProductImage/${imgFile.name + randomeCharecters()}`);
-        uploadBytes(imageRef, imgFile).then((snapshopt) => {
-            getDownloadURL(snapshopt.ref).then((url) => {
-                axios.post(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/addproduct`,
-                    {
-                        uid: userProps.uid,
-                        foodname: foodnname,
-                        foodprice: foodnprice,
-                        fileurl: url,
-                        foodrating: foodratng,
-                        foodquantity: foodquantity,
-                        category: category,
-                        location: location
-                    }
-                ).then(res => {
-                    handleResetAll();
-                    setLoader(false)
-                    toast.success("You added a product successfully");
-                })
-                    .catch(err => {
-                        toast.error(err.message);
-                    });
-            })
-        })
 
-    }
+        try {
+            // Upload image to Firebase Storage
+            const imageRef = ref(storage, `farmerProductImage/${imgFile.name + randomeCharecters()}`);
+            const uploadTask = await uploadBytes(imageRef, imgFile);
+            const downloadURL = await getDownloadURL(uploadTask.ref);
 
+            // Prepare data for POST request
+            const data = {
+                uid: userProps.uid,
+                foodname: foodnname,
+                foodprice: foodnprice,
+                fileurl: downloadURL,
+                foodrating: foodratng,
+                foodquantity: foodquantity,
+                category: category,
+                location: location,
+            };
+
+            // Send POST request to API
+            const response = await fetch(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/addproduct`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }, // Set appropriate headers for JSON data
+                body: JSON.stringify(data),
+            });
+
+            // Check for successful response
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            handleResetAll();
+            setLoader(false);
+            toast.success("You added a product successfully");
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
     return (
         <>
