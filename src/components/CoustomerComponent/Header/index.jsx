@@ -28,21 +28,7 @@ export default function Header({ ...props }) {
     <header {...props}>
       <ToastContainer />
       <div className="flex flex-row justify-between items-center w-full mx-auto max-w-[1128px]">
-        <Input
-          onClick={() => { nvigate(`/${props.userdetails.uid}/category`) }}
-          name="search"
-          placeholder="Search here"
-          value={searchBarValue}
-          onChange={(e) => setSearchBarValue(e)}
-          suffix={
-            searchBarValue?.length > 0 ? (
-              <CloseSVG onClick={() => setSearchBarValue("")} height={16} width={16} fillColor="#8c8787ff" />
-            ) : (
-              <Img src="../../../../public/Cimages/img_frame_7.svg" alt="Frame 7" className="cursor-pointer" />
-            )
-          }
-          className="w-[29%] h-[3rem] !text-lg"
-        />
+        <div />
         <div className="flex flex-row justify-between items-center w-auto gap-5">
           <Button color="gray_50" size="lg" className="w-[35px] h-[35px] rounded-[17px]">
             <Img src="/Cimages/img_group_257.svg" />

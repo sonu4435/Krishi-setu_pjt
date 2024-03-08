@@ -16,7 +16,7 @@ const variants = {
 };
 const sizes = {
   sm: "h-[60px] pl-4 pr-[35px] text-base",
-  xs: "h-[30px] pl-[21px] pr-[35px] text-xs",
+  xs: "",
 };
 
 const SelectBox = React.forwardRef(

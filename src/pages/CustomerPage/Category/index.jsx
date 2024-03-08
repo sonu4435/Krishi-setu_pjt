@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Img, Text, RatingBar, SelectBox } from "../../../components/CCindex";
-import Header from "../../../components/CategoryPage/Header";
 import Sidebar4 from "components/CategoryPage/Sidebar4";
+import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import { Input } from "components";
+import { Link } from "react-router-dom";
+import { CloseSVG } from "../../../assets/image";
+import { signOut } from "firebase/auth";
+import { auth } from "Server/FireBase/firebase";
+import { useNavigate } from "react-router-dom";
+import { getOrderId } from "components/SendGetData";
 
 const dropDownOptions = [
     { label: "Option1", value: "option1" },
@@ -11,6 +19,49 @@ const dropDownOptions = [
 ];
 
 export default function CategoriesPage({ userProps }) {
+    const [searchBarValue, setSearchBarValue] = React.useState("");
+    const [hidden, setHidden] = React.useState(true);
+    const [searchValue, setSearchValue] = useState('');
+    const [users, setUsers] = useState([]);
+
+    // get total users
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home`).then(users => {
+            setUsers(users.data);
+        }).catch(err => console.log(err))
+
+    }, []);
+
+
+
+    // Header comps 
+
+    // useEffect(() => {
+    //     document.querySelector('.rare').addEventListener('keydown', (e) => {
+    //         if (e.key === "Enter") {
+    //             getOrderId(e.target.value).then((res) => {
+    //                 setSearchValue(res);
+    //             })
+    //         }
+    //     })
+    // }, []);
+
+    const nvigate = useNavigate();
+    const handleSignOut = () => {
+        signOut(auth).then(() => {
+            nvigate("/");
+        }).catch((error) => {
+            toast.error(error, {
+                position: "top-right",
+            });
+        });
+    }
+
+    // useEffect(() => {
+    //     if(searchBarValue){
+
+    //     }
+    // })
 
     const objOfImg = [{
         imgSrc: "https://imgs.search.brave.com/CLjvWn603U52_iGglYftqESncd_w8pUWiab8SWhr2Pc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAxLzEyLzE0LzIw/LzM2MF9GXzExMjE0/MjA4M19aMDNmQ0dF/aERIWUpnaUVKVVlv/c0tsN2JBSVZpUHpr/cC5qcGc",
@@ -37,6 +88,24 @@ export default function CategoriesPage({ userProps }) {
         imgSrc: "https://imgs.search.brave.com/B7i-m0dKTdzZKNU1gLXR6vyBwe-KOGmLUqo02tf1xdE/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWM4LmRlcG9zaXRw/aG90b3MuY29tLzEy/MDUzNzUvOTUwL2kv/NDUwL2RlcG9zaXRw/aG90b3NfOTUwOTg5/Ni1zdG9jay1waG90/by1udXRzLmpwZw",
         CategoryName: "Nuts",
     },]
+    
+    let count = 0;
+    const handleOnClick = (e) => {
+        users.forEach(element => {
+            if (element.category === e.CategoryName){
+                count++;
+            }else{
+                count = 0;
+            }
+        })
+        if (count >= 1){
+            alert(count + " products found in " + e.CategoryName + " Category");
+            return;
+        }else{
+            alert("no products found in " + e.CategoryName + " Category");
+
+        }
+    }
 
 
     return (
@@ -46,15 +115,36 @@ export default function CategoriesPage({ userProps }) {
                 <meta name="description" content="Web site created using create-react-app" />
             </Helmet>
             <div className="flex flex-row justify-center w-full bg-white-A700">
+                <ToastContainer />
                 <div className="flex flex-row justify-center items-start w-full">
                     <Sidebar4 userProps={userProps} className="w-[252px] h-screen top-0 bg-white-A700 shadow-sm !sticky overflow-auto" />
                     <div className="flex flex-col items-center justify-start w-[83%] gap-[38px]">
-                        <Header userdetails={userProps} className="flex justify-center items-center w-full p-5 bg-white-A700 shadow-xs " />
+                        <header className="my-5">
+                            <div className="flex flex-row gap-[25rem] items-center justify-evenly  w-screen">
+                                <div />
+                                <div className="flex relative  flex-row justify-between items-center w-fit gap-5">
+                                    <div className="flex flex-col">
+                                        <Button color="gray_50" size="lg" className="w-[35px] h-[35px] rounded-[17px]">
+                                            <Img src="/Cimages/img_group_259.svg" />
+                                        </Button>
+                                    </div>
+                                    <Img src={userProps.photoURL} alt="circleimage" className="h-10 w-10 rounded-[50%]" />
+                                    <Button onClick={handleSignOut} color="gray_50" size="lg" className=" h-20 w-1/2 flex items-center justify-center font-medium overflow-hidden ml-2 rounded-[50px] text-white-A700 bg-red-600 border px-5 py-6">
+                                        Signout
+                                    </Button>
+                                    <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
+                                        <Link to={`/${userProps.uid}/addproduct`}>
+                                            Register as a Farmer
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </div>
+                        </header>      
                         <div className="flex flex-row justify-center w-[94%]">
                             <div className="flex flex-col items-center justify-start w-full gap-[34px]">
                                 <div className="justify-center w-full gap-[30px] grid-cols-4 grid min-h-[auto]">
                                     {objOfImg.map((item,index)=>(
-                                    <div key={index} className="group flex relative cursor-pointer flex-col items-center justify-start w-full h-[25vh] gap-[5px] p-4 bg-white-A700 shadow-md rounded-[15px]">
+                                    <div key={index} onClick={() => handleOnClick(item)} className="group flex relative cursor-pointer flex-col items-center justify-start w-full h-[25vh] gap-[5px] p-4 bg-white-A700 shadow-md rounded-[15px]">
                                         <Img
                                             src={item.imgSrc}
                                             alt="pizza_for_kids"

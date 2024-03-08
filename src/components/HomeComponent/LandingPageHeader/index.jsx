@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Text } from "components";
 import { Link } from "react-router-dom";
-
+// banda noob 
 const LandingPageHeader = (props) => {
   return (
     <>

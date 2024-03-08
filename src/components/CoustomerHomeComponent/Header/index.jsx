@@ -27,7 +27,6 @@ export default function Header({ ...props }) {
       <ToastContainer />
       <div className="flex flex-row justify-between items-center w-full mx-auto max-w-[1128px]">
         <Input
-          onClick={() => { nvigate(`/${props.userdetails.uid}/category`) }}
           name="search"
           placeholder="Search here"
           value={searchBarValue}
