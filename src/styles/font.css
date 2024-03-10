@@ -9,42 +9,42 @@
  @font-face {
   font-display: swap;
   font-style: normal;
-  src: url("/public/fonts/RobotoRegular.ttf");
+  src: url("/fonts/RobotoRegular.ttf");
   font-family: "Roboto";
   font-weight: 400;
 }
 @font-face {
   font-display: swap;
   font-style: normal;
-  src: url("/public/fonts/RobotoMedium.ttf");
+  src: url("/fonts/RobotoMedium.ttf");
   font-family: "Roboto";
   font-weight: 500;
 }
 @font-face {
   font-display: swap;
   font-style: normal;
-  src: url("/public/fonts/RobotoBold.ttf");
+  src: url("/fonts/RobotoBold.ttf");
   font-family: "Roboto";
   font-weight: 700;
 }
 @font-face {
   font-display: swap;
   font-style: normal;
-  src: url("/public/fonts/MontserratRegular.ttf");
+  src: url("/fonts/MontserratRegular.ttf");
   font-family: "Montserrat";
   font-weight: 400;
 }
 @font-face {
   font-display: swap;
   font-style: normal;
-  src: url("/public/fonts/RobotoRomanMedium.ttf");
+  src: url("/fonts/RobotoRomanMedium.ttf");
   font-family: "Roboto";
   font-weight: 500;
 }
 @font-face {
   font-display: swap;
   font-style: normal;
-  src: url("/public/fonts/PoppinsMedium.ttf");
+  src: url("/fonts/PoppinsMedium.ttf");
   font-family: "Poppins";
   font-weight: 500;
 }

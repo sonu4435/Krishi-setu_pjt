@@ -46,23 +46,16 @@ const ProjectRoutes = () => {
   return (
     <React.Suspense fallback={<LoadingPage />}>
       <Router>
-        {isAuthenticated ? <Routes>
-          <Route path="/" element={<Navigate to={`/${user.uid}/home`} />} />
-          <Route path="/Signup" element={<Navigate to={`/${user.uid}/home`} />} />
+         <Routes>
+          <Route path="/" element={<LandingPage user={user} />} />
+          <Route path="/Signup" element={<SignUp />} />
           <Route path={`/${user.uid}/orderhistory`} element={<Home userProps={user} />} />
           <Route path={`/${user.uid}/dashboard`} element={<CustomerPage userProps={user} />} />
           <Route path={`/${user.uid}/category`} element={<CategoriesPage userProps={user} />} />
           <Route path={`/${user.uid}/addproduct`} element={<AddMenuPage userProps={user} />} />
           <Route path={`/${user.uid}/home`} element={<CustomerRealHome userProps={user} />} />
           <Route path="*" element={<NotFound />} />
-        </Routes> :
-          <Routes>
-            <Route path="/" element={<LandingPage user={user} />} />
-            <Route path="/Signup" element={<SignUp />} />
-            <Route path={`/${user.uid}/dashboard`} element={<Navigate to={"/"} />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        }
+        </Routes> 
       </Router>
     </React.Suspense>
   );

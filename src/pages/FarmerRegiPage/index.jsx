@@ -170,7 +170,7 @@ export default function AddMenuPage({ userProps }) {
 
                                                             {!imgUrl ? (
                                                                 <>
-                                                                    <Img src="/public/Fimages/img_frame_15.svg" alt="image_five" className="h-8 w-8" />
+                                                                    <Img src="/Fimages/img_frame_15.svg" alt="image_five" className="h-8 w-8" />
                                                                     <Text size="md" as="p">
                                                                         <span className="text-gray-700_01 font-medium">Drop your imges here</span>
                                                                         <span className="text-gray-700_01 font-medium">,</span>

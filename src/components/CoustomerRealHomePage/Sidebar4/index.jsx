@@ -104,7 +104,7 @@ export default function Sidebar4({ userProps, setUsers, setSearchBarValue, users
             className='text-[#6b57ff] text-lg capitalize font-semibold'
             icon={
               <Img
-                src="/public/Cimages/img_frame_18.svg"
+                src="/Cimages/img_frame_18.svg"
                 alt="image_one"
                 className="h-5 w-5"
               />
@@ -133,7 +133,7 @@ export default function Sidebar4({ userProps, setUsers, setSearchBarValue, users
             className='text-sm'
             icon={
               <Img
-                src="/public/CCimages/img_frame_20.svg"
+                src="/CCimages/img_frame_20.svg"
                 alt="image_one"
                 className="h-5 w-5 p-[.8px]"
               />
@@ -147,7 +147,7 @@ export default function Sidebar4({ userProps, setUsers, setSearchBarValue, users
             className='text-sm'
             icon={
               <Img
-                src="/public/Himages/img_frame_21.svg"
+                src="/Himages/img_frame_21.svg"
                 alt="image_one"
                 className="h-5 w-5"
               />
