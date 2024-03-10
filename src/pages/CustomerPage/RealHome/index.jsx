@@ -3,11 +3,13 @@ import { Helmet } from "react-helmet";
 import { Button, Img, Text } from "../../../components/RHindex";
 import Sidebar4 from "components/CoustomerRealHomePage/Sidebar4";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { CloseSVG } from "assets/CCimages";
 import { signOut } from "firebase/auth";
 import { auth } from "Server/FireBase/firebase";
 import { Input } from "../../../components/Cindex";
+import { loadStripe } from '@stripe/stripe-js';
+
 
 const dropDownOptions = [
   { label: "Option1", value: "option1" },
@@ -18,6 +20,7 @@ const dropDownOptions = [
 export default function CustomerRealHome({ userProps }) {
   const [searchBarValue, setSearchBarValue] = React.useState("");
   const [reciveData, setReciveData] = useState({
+    _id: "",
     imgSrc: "",
     prodName: "",
     quantity: "",
@@ -26,8 +29,13 @@ export default function CustomerRealHome({ userProps }) {
     desc: "",
   });
   const [show, setShow] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [searchUsers, setSearchUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [cartData, setCartData] = useState([]);
+  const [cartProduct, setCartProduct] = useState([]); // State to keep track of cart item count
+  const nvigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +58,6 @@ export default function CustomerRealHome({ userProps }) {
     fetchData();
   }, []);
 
-  const nvigate = useNavigate();
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -70,10 +77,153 @@ export default function CustomerRealHome({ userProps }) {
     } else {
       const filteredUsers = users.filter(user =>
         user.foodname.toLowerCase().includes(searchQuery)
-        );
-        setSearchUsers(filteredUsers);
-      }
+      );
+      setSearchUsers(filteredUsers);
+    }
   }
+
+  const filterByAvailability = (availability) => {
+    // Call the callback function passed from the sidebar
+    onFilterByAvailability(availability);
+  };
+
+  const filterByCategory = (category) => {
+    // Call the callback function passed from the sidebar
+    onFilterByCategory(category);
+  };
+
+  const resetFilters = () => {
+    // Call the callback function passed from the sidebar
+    onResetFilters();
+  };
+
+  const sortByLowToHigh = () => {
+    // Call the callback function passed from the sidebar
+    onSortByLowToHigh();
+  };
+
+  const sortByHighToLow = () => {
+    // Call the callback function passed from the sidebar
+    onSortByHighToLow();
+  };
+
+  const makeCheckout = async () => {
+    setLoading(true); // Set loading state to true when checkout process starts
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISH_KEY);
+    const body = {
+      products: reciveData
+    };
+    try {
+      const backendURL = `${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home`;
+
+      const response = await fetch(backendURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const session = await response.json();
+
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      } else {
+        toast.success("ordered susccesfully", {
+          position: "top-right",
+        });
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      toast.error(error.message, {
+        position: "top-right",
+      });
+    } finally {
+      setLoading(false); // Reset loading state regardless of success or failure
+    }
+  }
+
+  const fetcProducthData = async () => {
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home/productDetails`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const productDetails = await response.json();
+      setCartData(productDetails);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
+  }
+
+  const handleSendToDb = async () => {
+    try {
+      // Prepare data for POST request
+      const data = {
+        uid: userProps.uid,
+        ProductUID: reciveData._id
+      };
+
+      // Send POST request to API
+      const response = await fetch(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home/productDetails`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }, // Set appropriate headers for JSON data
+        body: JSON.stringify(data),
+      });
+
+      // Check for successful response
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      toast.success("You added a product successfully");
+      fetcProducthData();
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  // call to update the cartData on screenload
+
+  useEffect(() => {
+    fetcProducthData();
+  }, []);
+
+
+  // Get cart products onLoad of screen
+  // Inside your frontend code
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/home/productDetails/cart`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ productIds: cartData.map(product => product.ProductUID) }) // Send an array of product IDs
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const productDetails = await response.json();
+        setCartProduct(productDetails);
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+      }
+    };
+
+    fetchProductDetails();
+  }, [cartData]); // Run this effect whenever cartData changes
+
 
   return (
     <>
@@ -82,11 +232,22 @@ export default function CustomerRealHome({ userProps }) {
         <meta name="description" content="Web site created using create-react-app" />
       </Helmet>
       <div className="flex flex-row justify-center w-full bg-white-A700">
+        <ToastContainer />
         <div className="flex flex-row justify-center items-start w-full">
-          <Sidebar4 userProps={userProps} className="w-[252px] h-screen top-0 bg-white-A700 shadow-sm !sticky overflow-auto" />
+          <Sidebar4
+            userProps={userProps}
+            setUsers={setUsers}
+            setSearchBarValue={setSearchBarValue}
+            users={users}
+            setSearchUsers={setSearchUsers}
+            onFilterByAvailability={filterByAvailability}
+            onFilterByCategory={filterByCategory}
+            onResetFilters={resetFilters}
+            onSortByLowToHigh={sortByLowToHigh}
+            onSortByHighToLow={sortByHighToLow}
+          />
           <div className="flex flex-col items-center justify-start w-[83%] gap-[38px]">
             <header>
-              <ToastContainer />
               <div className="flex flex-row justify-between pt-3 items-center w-screen mx-auto max-w-[1128px]">
                 <Input
                   name="search"
@@ -97,29 +258,62 @@ export default function CustomerRealHome({ userProps }) {
                     searchBarValue?.length > 0 ? (
                       <CloseSVG onClick={() => setSearchBarValue("")} height={16} width={25} fillColor="#8c8787ff" />
                     ) : (
-                      <Img src="../../../../public/Cimages/img_frame_7.svg" alt="Frame 7" className="cursor-pointer" />
+                      <Img src="/Cimages/img_frame_7.svg" alt="Frame 7" className="cursor-pointer" />
                     )
                   }
                   className="w-[29%] h-[3rem] !text-lg rare"
                 />
                 <div className="flex relative flex-row justify-between items-center w-auto gap-5">
-                  <div className="flex flex-col">
-                    <Button color="gray_50" size="lg" className="w-[35px] h-[35px] rounded-[17px]">
-                      <Img src="/Cimages/img_group_259.svg" />
-                    </Button>
+                  <div className="flex flex-col px-2">
+                    <span className="relative inline-block cursor-pointer" onClick={() => { isOpen ? setIsOpen(false) : setIsOpen(true) }}>
+                      <svg className="w-6 h-6 text-gray-700 fill-current" viewBox="0 0 20 20"><path d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+                      <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{cartData.length}</span>
+                    </span>
                   </div>
                   <Img src={userProps.photoURL} alt="circleimage" className="h-10 w-10 rounded-[50%]" />
-                  <Button onClick={handleSignOut} color="gray_50" size="lg" className=" h-20 w-1/2 flex items-center justify-center font-medium overflow-hidden ml-2 rounded-[50px] text-white-A700 bg-red-600 border px-5 py-6">
+                  <Button onClick={handleSignOut} color="gray_50" size="lg" className=" h-20 w-40 flex items-center justify-center font-medium overflow-hidden ml-2 rounded-[50px] text-white-A700 bg-red-600 border px-5 py-6">
                     Signout
                   </Button>
-                  <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
+                  {/* <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
                     <Link to={`/${userProps.uid}/addproduct`}>
                       Register as a Farmer
                     </Link>
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </header>
+            <div style={isOpen ? { right: 0 } : { right: "-100%" }} className="block duration-700 ease-in-out absolute z-[999999] right-0 top-0 h-[90%] w-1/3 bg-white-A700">
+              <div className="p-10 font-medium text-xl w-full h-auto flex items-center justify-between gap-5">
+                <h1>Shoping Cart</h1>
+                {
+                  isOpen && (
+                    <CloseSVG onClick={() => setIsOpen(false)} height={26} width={25} fillColor="#8c8787ff" className="cursor-pointer" />
+                  )
+                }
+              </div>
+              <div className="products w-full h-full p-10 flex flex-col gap-4">
+                {cartProduct.map((item, index) => (
+                  <div key={index} className="product1 flex w-full h-36 gap-5">
+                    <div className="productImage w-1/3 h-full flex items-center">
+                      <img src={item.fileurl} className="rounded-md" />
+                    </div>
+                    <div className="w-full h-full flex flex-col items-center">
+                      <div className="w-full h-full flex justify-between">
+                        <h1 className="text-xl p-5">{item.foodname}</h1>
+                        <h1 className="text-xl p-5">&#8377;{item.foodprice}/Kg</h1>
+                      </div>
+                      <div className="w-full h-full flex justify-between">
+                        <h1 className="text-base p-5">Qty {item.foodquantity}Kg</h1>
+                        <button className="text-base text-blue-500 p-5">remove</button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <div className="h-full w-full flex items-end">
+                <button className="w-full h-auto p-5 capitalize bg-blue-500 text-white-A700 rounded-md">Check out</button>
+                </div>
+              </div>
+            </div>
             <div style={show ? { display: "none" } : { display: "flex" }} className="flex flex-row justify-center w-[94%]">
               <div className="flex flex-col items-center justify-start w-full gap-[34px]">
                 <div className="justify-center w-full gap-[30px] grid-cols-4 grid min-h-[auto]">
@@ -132,7 +326,8 @@ export default function CustomerRealHome({ userProps }) {
                         quantity: item.foodquantity,
                         garde: item.grade,
                         price: item.foodprice,
-                        desc: item.desc
+                        desc: item.desc,
+                        _id: item._id,
                       })
                     }} key={index} className="group cursor-pointer flex hover:scale-105 duration-300 ease-in-out flex-col justify-start w-full gap-[5px] p-4 bg-white-A700 shadow-md shadow-[#dfdfdf] rounded-[15px] relative overflow-hidden">
                       <Img
@@ -190,7 +385,7 @@ export default function CustomerRealHome({ userProps }) {
                   </button>
                 </div>
               </div>
-              <div className="pb-14 pl-12 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+              <div className="pb-14 w-[90%] pl-12 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
                 <div className="flex flex-row gap-[11rem] xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
                   <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
                     <div className="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full gap-10">
@@ -216,9 +411,18 @@ export default function CustomerRealHome({ userProps }) {
                     <div className="flex justify-center flex-row gap-4 md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                       <div className="w-full flex flex-col gap-5 items-center justify-center mt-14">
                         <input type="number" maxLength={3} placeholder="Quantity in KG" className="!outline-1 !outline-black !border-1 py-10 px-10" />
-                        <button className="px-24 py-5 bg-black text-white-A700 w-full capitalize rounded-tl-3xl rounded-br-3xl hover:bg-[#3c3c3c] font-medium">Add to cart</button>
-                        <button className="px-24 py-5 bg-black text-white-A700 w-full capitaliz hover:bg-[#3c3c3c] font-medium">Buy Now</button>
-                      </div>
+                        {!cartProduct.find(item => item._id === reciveData._id) ? (
+                          <button onClick={handleSendToDb} className="px-24 py-5 bg-black text-white-A700 w-full capitalize rounded-tl-3xl rounded-br-3xl hover:bg-[#3c3c3c] font-medium">Add to cart</button>
+                        ) : (
+                          <button disabled className="px-24 py-5 bg-gray-400 text-white-A700 w-full capitalize rounded-tl-3xl rounded-br-3xl">Already in cart</button>
+                        )}
+                        <button
+                          onClick={makeCheckout}
+                          className={`px-24 py-5 bg-black text-white-A700 w-full capitaliz hover:bg-[#3c3c3c] font-medium`}
+                          disabled={loading} // Disable the button if loading is true
+                        >
+                          {loading ? 'Processing...' : 'Buy Now'}
+                        </button>                      </div>
                       <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
                         <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">Description</h3>
                         <div className="flex justify-between items-start w-full">

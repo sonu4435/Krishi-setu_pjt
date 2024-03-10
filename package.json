@@ -5,6 +5,10 @@
   "private": true,
   "dependencies": {
     "@googlemaps/react-wrapper": "^1.1.35",
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
+    "@stripe/react-stripe-js": "^2.5.1",
+    "@stripe/stripe-js": "^3.0.7",
     "@tailwindcss/forms": "0.4.0",
     "@tanstack/react-table": "^8.5.30",
     "express": "^4.18.3",

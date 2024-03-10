@@ -35,7 +35,7 @@ export default function Header({ ...props }) {
             searchBarValue?.length > 0 ? (
               <CloseSVG onClick={() => setSearchBarValue("")} height={16} width={16} fillColor="#8c8787ff" />
             ) : (
-              <Img src="../../../../public/Cimages/img_frame_7.svg" alt="Frame 7" className="cursor-pointer" />
+              <Img src="/Cimages/img_frame_7.svg" alt="Frame 7" className="cursor-pointer" />
             )
           }
           className="w-[29%] h-[3rem] !text-lg rare"
@@ -47,14 +47,14 @@ export default function Header({ ...props }) {
             </Button>
           </div>
           <Img src={props.userdetails.photoURL} alt="circleimage" className="h-10 w-10 rounded-[50%]" />
-          <Button onClick={handleSignOut} color="gray_50" size="lg" className=" h-20 w-1/2 flex items-center justify-center font-medium overflow-hidden ml-2 rounded-[50px] text-white-A700 bg-red-600 border px-5 py-6">
+          <Button onClick={handleSignOut} color="gray_50" size="lg" className=" h-20 w-40 flex items-center justify-center font-medium overflow-hidden ml-2 rounded-[50px] text-white-A700 bg-red-600 border px-5 py-6">
             Signout
           </Button>
-          <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
+          {/* <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
             <Link to={`/${props.userdetails.uid}/addproduct`}>
               Register as a Farmer
             </Link>
-          </Button>
+          </Button> */}
         </div>
       </div>
     </header>

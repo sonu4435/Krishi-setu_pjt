@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import {
   Text,
@@ -21,6 +21,29 @@ const dropDownOptions = [
 ];
 
 export default function DashboardPage({userProps}) {
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_TEST_VAR}/${userProps.uid}/dashboard`);
+
+        // Check for successful response
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const usersFilter = await response.json();
+        setUsers(usersFilter);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -40,7 +63,7 @@ export default function DashboardPage({userProps}) {
                 Dashboard
               </Text>
               <Text size="lg" as="p">
-                Wellcome to Lojusa Admin
+                Wellcome to {userProps.displayName} Admin
               </Text>
             </div>
             <div className="flex flex-row w-full gap-[30px]">
@@ -51,14 +74,14 @@ export default function DashboardPage({userProps}) {
                   shape="circle"
                   className="w-[70px]"
                 >
-                  <Img src="../../../../public/Cimages/img_group_18300.svg" />
+                  <Img src="/Cimages/img_group_18300.svg" />
                 </Button>
                 <div className="flex flex-col items-start justify-start w-2/5 mr-[23px] gap-[7px]">
                   <Heading size="md" as="h1">
-                    2560
+                    {users.length}
                   </Heading>
                   <Text size="md" as="p" className="!font-normal">
-                    Total Menus
+                    Total Items
                   </Text>
                 </div>
               </div>
@@ -69,7 +92,7 @@ export default function DashboardPage({userProps}) {
                   shape="circle"
                   className="w-[70px]"
                 >
-                  <Img src="../../../../public/Cimages/img_group_18276.svg" />
+                  <Img src="/Cimages/img_group_18276.svg" />
                 </Button>
                 <div className="flex flex-col items-start justify-start w-[47%] mr-2.5 gap-1.5">
                   <Heading size="md" as="h2">
@@ -87,7 +110,7 @@ export default function DashboardPage({userProps}) {
                   shape="circle"
                   className="w-[70px]"
                 >
-                  <Img src="../../../../public/Cimages/img_group_18277.svg" />
+                  <Img src="/Cimages/img_group_18277.svg" />
                 </Button>
                 <div className="flex flex-col items-start justify-start w-1/2 mr-[5px] gap-[7px]">
                   <Heading size="md" as="h3">
@@ -105,7 +128,7 @@ export default function DashboardPage({userProps}) {
                   shape="circle"
                   className="w-[70px]"
                 >
-                  <Img src="../../../../public/Cimages/img_group_18278.svg" />
+                  <Img src="/Cimages/img_group_18278.svg" />
                 </Button>
                 <div className="flex flex-col items-start justify-start w-[37%] gap-[7px]">
                   <Heading size="md" as="h4">
@@ -133,7 +156,7 @@ export default function DashboardPage({userProps}) {
                       variant="outline"
                       indicator={
                         <Img
-                          src="../../../../public/Cimages/img_frame_11.svg"
+                          src="/Cimages/img_frame_11.svg"
                           alt="Frame 11"
                         />
                       }
@@ -208,7 +231,7 @@ export default function DashboardPage({userProps}) {
                                   <div className="h-[163px] w-px bg-blue-50" />
                                 </div>
                                 <Img
-                                  src="../../../../public/Cimages/img_chart.png"
+                                  src="/Cimages/img_chart.png"
                                   alt="chart_one"
                                   className="h-[88px] w-full bottom-[14%] right-0 left-0 m-auto object-cover absolute"
                                 />
@@ -323,7 +346,7 @@ export default function DashboardPage({userProps}) {
                                           <div className="h-[117px] w-[3%] ml-11 rounded-tr-[50%] rounded-tl-[50%] z-[1] bg-blue-A200" />
                                           <div className="flex flex-row justify-start items-center mt-[-74px]">
                                             <Img
-                                              src="../../../../public/Cimages/img_group_36.svg"
+                                              src="/Cimages/img_group_36.svg"
                                               alt="image_eight"
                                               className="h-[122px] z-[1]"
                                             />
@@ -331,13 +354,13 @@ export default function DashboardPage({userProps}) {
                                           </div>
                                         </div>
                                         <Img
-                                          src="../../../../public/Cimages/img_group_36.svg"
+                                          src="/Cimages/img_group_36.svg"
                                           alt="image_nine"
                                           className="h-[100px] mt-[-90px] ml-[133px]"
                                         />
                                       </div>
                                       <Img
-                                        src="../../../../public/Cimages/img_group_36.svg"
+                                        src="/Cimages/img_group_36.svg"
                                         alt="image_ten"
                                         className="h-[100px] mt-[-99px] mr-[43px]"
                                       />
@@ -345,7 +368,7 @@ export default function DashboardPage({userProps}) {
                                     <div className="flex flex-row justify-center items-center w-full h-max left-0 bottom-0 right-0 top-0 m-auto absolute">
                                       <div className="h-px w-[99%] bg-blue-50" />
                                       <Img
-                                        src="../../../../public/Cimages/img_group_36.svg"
+                                        src="/Cimages/img_group_36.svg"
                                         alt="image_eleven"
                                         className="h-[189px] ml-[-6px]"
                                       />
@@ -358,14 +381,14 @@ export default function DashboardPage({userProps}) {
                                     </div>
                                     <div className="flex flex-col items-end justify-start w-[99%] top-[10%] right-0 left-0 m-auto absolute">
                                       <Img
-                                        src="../../../../public/Cimages/img_group_36.svg"
+                                        src="/Cimages/img_group_36.svg"
                                         alt="image_twelve"
                                         className="h-[140px] mr-[178px] z-[1]"
                                       />
                                       <div className="flex flex-col items-end justify-start w-full mt-[-77px]">
                                         <div className="h-px w-full bg-blue-50" />
                                         <Img
-                                          src="../../../../public/Cimages/img_group_43.svg"
+                                          src="/Cimages/img_group_43.svg"
                                           alt="image_thirteen"
                                           className="h-[89px] mr-[132px]"
                                         />
@@ -375,22 +398,22 @@ export default function DashboardPage({userProps}) {
                                     <div className="h-px w-[99%] top-[30%] right-0 left-0 m-auto bg-blue-50 absolute" />
                                     <div className="h-px w-[99%] top-[7%] right-0 left-0 m-auto bg-blue-50 absolute" />
                                     <Img
-                                      src="../../../../public/Cimages/img_group_36.svg"
+                                      src="/Cimages/img_group_36.svg"
                                       alt="image_fourteen"
                                       className="h-[189px] bottom-0 left-[20%] m-auto absolute"
                                     />
                                     <Img
-                                      src="../../../../public/Cimages/img_group_43.svg"
+                                      src="/Cimages/img_group_43.svg"
                                       alt="image_fifteen"
                                       className="h-[61px] bottom-[24%] left-[39%] m-auto absolute"
                                     />
                                     <Img
-                                      src="../../../../public/Cimages/img_group_36.svg"
+                                      src="/Cimages/img_group_36.svg"
                                       alt="image_sixteen"
                                       className="justify-center h-[123px] left-0 bottom-0 right-0 top-0 m-auto absolute"
                                     />
                                     <Img
-                                      src="../../../../public/Cimages/img_group_36.svg"
+                                      src="/Cimages/img_group_36.svg"
                                       alt="image_seventeen"
                                       className="h-[140px] right-[19%] top-[12%] m-auto absolute"
                                     />
@@ -455,7 +478,7 @@ export default function DashboardPage({userProps}) {
                       variant="outline"
                       indicator={
                         <Img
-                          src="../../../../public/Cimages/img_frame_11.svg"
+                          src="/Cimages/img_frame_11.svg"
                           alt="Frame 11"
                         />
                       }
@@ -541,7 +564,7 @@ export default function DashboardPage({userProps}) {
                             </Text>
                           </Link>
                           <Img
-                            src="../../../../public/Cimages/img_frame_24.svg"
+                            src="/Cimages/img_frame_24.svg"
                             alt="image_eighteen"
                             className="h-3 w-3"
                           />
@@ -564,7 +587,7 @@ export default function DashboardPage({userProps}) {
                       variant="outline"
                       indicator={
                         <Img
-                          src="../../../../public/Cimages/img_caretdown.svg"
+                          src="/Cimages/img_caretdown.svg"
                           alt="caret-down"
                         />
                       }
@@ -581,7 +604,7 @@ export default function DashboardPage({userProps}) {
                         className="justify-center h-[189px] w-full left-0 bottom-0 right-0 top-0 m-auto absolute"
                       />
                       <Img
-                        src="../../../../public/Cimages/img_group_18769.png"
+                        src="/Cimages/img_group_18769.png"
                         alt="image_nineteen"
                         className="h-[137px] w-[76%] left-[9%] bottom-0 top-0 m-auto object-cover absolute"
                       />
@@ -599,7 +622,7 @@ export default function DashboardPage({userProps}) {
                           <div className="flex flex-row justify-between items-center w-full">
                             <div className="flex flex-row justify-start items-center w-2/5 gap-1.5">
                               <Img
-                                src="../../../../public/Cimages/img_rectangle_4099.png"
+                                src="/Cimages/img_rectangle_4099.png"
                                 alt="image"
                                 className="w-[30px] object-cover rounded-sm"
                               />
@@ -638,7 +661,7 @@ export default function DashboardPage({userProps}) {
                                 shape="circle"
                                 className="w-[30px]"
                               >
-                                <Img src="../../../../public/Cimages/img_heroicons_outli.svg" />
+                                <Img src="/Cimages/img_heroicons_outli.svg" />
                               </Button>
                             </div>
                           </div>
@@ -647,7 +670,7 @@ export default function DashboardPage({userProps}) {
                         <div className="flex flex-row justify-between items-start w-full">
                           <div className="flex flex-row justify-start items-center w-2/5 mb-[3px] gap-1.5">
                             <Img
-                              src="../../../../public/Cimages/img_rectangle_4099_30x30.png"
+                              src="/Cimages/img_rectangle_4099_30x30.png"
                               alt="image"
                               className="w-[30px] object-cover rounded-sm"
                             />
@@ -685,7 +708,7 @@ export default function DashboardPage({userProps}) {
                               shape="circle"
                               className="w-[30px]"
                             >
-                              <Img src="../../../../public/Cimages/img_heroicons_outli.svg" />
+                              <Img src="/Cimages/img_heroicons_outli.svg" />
                             </Button>
                           </div>
                         </div>
@@ -710,7 +733,7 @@ export default function DashboardPage({userProps}) {
                     variant="outline"
                     indicator={
                       <Img
-                        src="../../../../public/Cimages/img_caretdown.svg"
+                        src="/Cimages/img_caretdown.svg"
                         alt="caret-down"
                       />
                     }
@@ -725,7 +748,7 @@ export default function DashboardPage({userProps}) {
                     <div className="flex flex-row justify-center items-center w-[78%]">
                       <div className="flex flex-row justify-start items-center w-[46%] gap-[9px]">
                         <Img
-                          src="../../../../public/Cimages/img_rectangle_4144.png"
+                          src="/Cimages/img_rectangle_4144.png"
                           alt="image"
                           className="w-[21%] object-cover rounded"
                         />
@@ -774,7 +797,7 @@ export default function DashboardPage({userProps}) {
                       <div className="flex flex-row justify-center items-center w-[78%]">
                         <div className="flex flex-row justify-start items-center w-[46%] gap-[9px]">
                           <Img
-                            src="../../../../public/Cimages/img_rectangle_4144_48x50.png"
+                            src="/Cimages/img_rectangle_4144_48x50.png"
                             alt="image"
                             className="w-[21%] object-cover rounded"
                           />
@@ -831,7 +854,7 @@ export default function DashboardPage({userProps}) {
                     <div className="flex flex-row justify-center items-center w-[78%]">
                       <div className="flex flex-row justify-start items-center w-[46%] gap-[9px]">
                         <Img
-                          src="../../../../public/Cimages/img_rectangle_4144_1.png"
+                          src="/Cimages/img_rectangle_4144_1.png"
                           alt="image"
                           className="w-[21%] object-cover rounded"
                         />
@@ -944,7 +967,7 @@ export default function DashboardPage({userProps}) {
                 <div className="flex flex-col w-[97%] mb-2 gap-[11px]">
                   <div className="flex flex-row justify-start items-center w-[99%] gap-3.5">
                     <Img
-                      src="../../../../public/Cimages/img_rectangle_4144_3.png"
+                      src="/Cimages/img_rectangle_4144_3.png"
                       alt="image"
                       className="w-[17%] object-cover rounded"
                     />
@@ -975,7 +998,7 @@ export default function DashboardPage({userProps}) {
                   <div className="w-px h-px bg-blue-50" />
                   <div className="flex flex-row justify-start items-center w-full gap-3.5">
                     <Img
-                      src="../../../../public/Cimages/img_rectangle_4144_4.png"
+                      src="/Cimages/img_rectangle_4144_4.png"
                       alt="image"
                       className="w-[17%] object-cover rounded"
                     />
@@ -1010,7 +1033,7 @@ export default function DashboardPage({userProps}) {
                   <div className="w-px h-px bg-blue-50" />
                   <div className="flex flex-row justify-start items-center w-full gap-3.5">
                     <Img
-                      src="../../../../public/Cimages/img_rectangle_4144_5.png"
+                      src="/Cimages/img_rectangle_4144_5.png"
                       alt="image"
                       className="w-[17%] object-cover rounded"
                     />
@@ -1045,7 +1068,7 @@ export default function DashboardPage({userProps}) {
                   <div className="w-px h-px bg-blue-50" />
                   <div className="flex flex-row justify-start items-center w-full gap-3.5">
                     <Img
-                      src="../../../../public/Cimages/img_rectangle_4144_6.png"
+                      src="/Cimages/img_rectangle_4144_6.png"
                       alt="image"
                       className="w-[17%] object-cover rounded"
                     />

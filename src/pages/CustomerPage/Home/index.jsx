@@ -172,7 +172,7 @@ export default function Home({ userProps }) {
             <Button color="blue_50" className="mt-[11px] font-medium min-w-[100px]">
               {info?.getValue()}
             </Button>
-            <Img src="../../../../public/Himages/img_frame_13.svg" alt="image_five" className="h-5 w-5 mb-1.5 cursor-pointer" onClick={() => handleDataSet(info)} />
+            <Img src="/Himages/img_frame_13.svg" alt="image_five" className="h-5 w-5 mb-1.5 cursor-pointer" onClick={() => handleDataSet(info)} />
           </div>
         ),
         header: (info) => (
@@ -207,7 +207,7 @@ export default function Home({ userProps }) {
               </div>
               <div className="flex flex-row justify-start w-[22%] gap-[22px]">
                 <SelectBox
-                  indicator={<Img src="../../../../public/Himages/img_frame_11_white_a700.svg" alt="Frame 11" />}
+                  indicator={<Img src="/Himages/img_frame_11_white_a700.svg" alt="Frame 11" />}
                   name="allstatus"
                   placeholder="All Status"
                   options={dropDownOptions}
@@ -216,7 +216,7 @@ export default function Home({ userProps }) {
                 <SelectBox
                   color="blue_50"
                   variant="outline"
-                  indicator={<Img src="../../../../public/Himages/img_frame_11.svg" alt="Frame 11" />}
+                  indicator={<Img src="/Himages/img_frame_11.svg" alt="Frame 11" />}
                   name="today"
                   placeholder="Today"
                   options={dropDownOptions}
@@ -246,12 +246,12 @@ export default function Home({ userProps }) {
                   <div className="flex flex-row justify-start w-[49%]">
                     <div className="flex flex-col items-center justify-start h-[30px] w-[30px] z-[1]">
                       <Button size="xs" className="w-[30px] rounded-tr-[5px] rounded-br-[5px]">
-                        <Img src="../../../../public/Himages/img_arrow_right_white_a700.svg" />
+                        <Img src="/Himages/img_arrow_right_white_a700.svg" />
                       </Button>
                     </div>
                     <div className="flex flex-col items-center justify-start h-[30px] w-[30px] ml-[-1px]">
                       <Button color="blue_50" size="xs" className="w-[30px] rounded-tr-[5px] rounded-br-[5px]">
-                        <Img src="../../../../public/Himages/img_arrow_right_blue_a200.svg" />
+                        <Img src="/Himages/img_arrow_right_blue_a200.svg" />
                       </Button>
                     </div>
                   </div>

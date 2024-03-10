@@ -33,7 +33,7 @@ export default function Header({ ...props }) {
             searchBarValue?.length > 0 ? (
               <CloseSVG onClick={() => setSearchBarValue("")} height={16} width={16} fillColor="#8c8787ff" />
             ) : (
-              <Img src="../../../../public/Cimages/img_frame_7.svg" alt="Frame 7" className="cursor-pointer" />
+              <Img src="/Cimages/img_frame_7.svg" alt="Frame 7" className="cursor-pointer" />
             )
           }
           className="w-[29%] h-[3rem] !text-lg"

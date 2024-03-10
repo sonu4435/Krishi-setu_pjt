@@ -140,14 +140,14 @@ export default function CategoriesPage({ userProps }) {
                                         </Button>
                                     </div>
                                     <Img src={userProps.photoURL} alt="circleimage" className="h-10 w-10 rounded-[50%]" />
-                                    <Button onClick={handleSignOut} color="gray_50" size="lg" className=" h-20 w-1/2 flex items-center justify-center font-medium overflow-hidden ml-2 rounded-[50px] text-white-A700 bg-red-600 border px-5 py-6">
+                                    <Button onClick={handleSignOut} color="gray_50" size="lg" className=" h-20 w-40 flex items-center justify-center font-medium overflow-hidden ml-2 rounded-[50px] text-white-A700 bg-red-600 border px-5 py-6">
                                         Signout
                                     </Button>
-                                    <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
+                                    {/* <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
                                         <Link to={`/${userProps.uid}/addproduct`}>
                                             Register as a Farmer
                                         </Link>
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             </div>
                         </header>      

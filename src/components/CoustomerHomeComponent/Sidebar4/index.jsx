@@ -31,7 +31,7 @@ export default function Sidebar4({ userProps }) {
         }}
         renderExpandIcon={() => (
           <Img
-            src="../../public/Cimages/img_arrow_right.svg"
+            src="/Cimages/img_arrow_right.svg"
             alt="arrowright_one"
             className="h-6 w-6 cursor-pointer"
           />

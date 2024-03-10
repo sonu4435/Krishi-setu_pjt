@@ -5,7 +5,7 @@ import { SubMenu, MenuItem, Menu, Sidebar } from "react-pro-sidebar";
 export default function Sidebar1({ ...props }) {
   return (
     <Sidebar {...props} width="250px !important">
-      <Img src="//public/Himages/img_group_18298.svg" alt="image" className="h-[30px] mt-6 ml-7 mr-[97px]" />
+      <Img src="/Himages/img_group_18298.svg" alt="image" className="h-[30px] mt-6 ml-7 mr-[97px]" />
       <Menu
         menuItemStyles={{
           button: {
@@ -14,12 +14,12 @@ export default function Sidebar1({ ...props }) {
           },
         }}
         renderExpandIcon={() => (
-          <Img src="//public/Himages/img_arrow_right.svg" alt="arrowright_one" className="h-6 w-6 cursor-pointer" />
+          <Img src="/Himages/img_arrow_right.svg" alt="arrowright_one" className="h-6 w-6 cursor-pointer" />
         )}
         className="flex flex-col items-center justify-start w-full mt-[76px]"
       >
         <div className="flex flex-row justify-start items-center w-full gap-2 p-2.5">
-          <Img src="//public/Himages/img_circlesfour_blue_gray_400.svg" alt="image_one" className="h-5 w-5 ml-5" />
+          <Img src="/Himages/img_circlesfour_blue_gray_400.svg" alt="image_one" className="h-5 w-5 ml-5" />
           <Text size="lg" as="p" className="!text-blue_gray-400">
             Dashboard
           </Text>
@@ -27,7 +27,7 @@ export default function Sidebar1({ ...props }) {
         <SubMenu>
           <div className="flex flex-row justify-between items-center w-full p-[7px]">
             <div className="flex flex-row justify-start items-center ml-[23px] gap-2">
-              <Img src="//public/Himages/defaultNoData.png" alt="rocketlaunch" className="h-4 w-4" />
+              <Img src="/Himages/defaultNoData.png" alt="rocketlaunch" className="h-4 w-4" />
               <Text size="lg" as="p" className="!text-blue_gray-400">
                 Orders
               </Text>
@@ -37,18 +37,18 @@ export default function Sidebar1({ ...props }) {
         <SubMenu>
           <div className="flex flex-row justify-between items-start w-full pt-2.5 px-2.5">
             <div className="flex flex-row justify-start items-center ml-[19px] gap-2">
-              <Img src="//public/Himages/img_frame_18.svg" alt="image_two" className="h-4 w-4" />
+              <Img src="/Himages/img_frame_18.svg" alt="image_two" className="h-4 w-4" />
               <Text size="lg" as="p" className="!text-blue_gray-400">
                 Menus
               </Text>
             </div>
-            <Img src="//public/Himages/img_arrow_right.svg" alt="arrowright" className="h-6 w-6 mt-2.5 cursor-pointer" />
+            <Img src="/Himages/img_arrow_right.svg" alt="arrowright" className="h-6 w-6 mt-2.5 cursor-pointer" />
           </div>
         </SubMenu>
         <SubMenu>
           <div className="flex flex-row justify-between items-start w-full pb-2.5 px-2.5">
             <div className="flex flex-row justify-start items-center mt-2.5 ml-[19px] gap-[7px]">
-              <Img src="//public/Himages/defaultNoData.png" alt="vector_one" className="h-4 w-4" />
+              <Img src="/Himages/defaultNoData.png" alt="vector_one" className="h-4 w-4" />
               <Text size="lg" as="p" className="!text-blue-A200">
                 Customer
               </Text>
@@ -69,7 +69,7 @@ export default function Sidebar1({ ...props }) {
           </div>
         </SubMenu>
         <div className="flex flex-row justify-start items-center w-full mt-[59px] gap-2 p-2.5">
-          <Img src="//public/Himages/img_frame_20.svg" alt="vector_three" className="h-4 w-4 ml-[19px]" />
+          <Img src="/Himages/img_frame_20.svg" alt="vector_three" className="h-4 w-4 ml-[19px]" />
           <Text size="lg" as="p" className="!text-blue_gray-400">
             Analytics
           </Text>
@@ -77,17 +77,17 @@ export default function Sidebar1({ ...props }) {
         <SubMenu>
           <div className="flex flex-row justify-between items-center w-full p-2">
             <div className="flex flex-row justify-start items-center ml-[22px] gap-2">
-              <Img src="//public/Himages/img_frame_21.svg" alt="image_three" className="h-4 w-4" />
+              <Img src="/Himages/img_frame_21.svg" alt="image_three" className="h-4 w-4" />
               <Text size="lg" as="p" className="!text-blue_gray-400">
                 Table{" "}
               </Text>
             </div>
-            <Img src="//public/Himages/img_arrow_right.svg" alt="arrowright_five" className="h-6 w-6 cursor-pointer" />
+            <Img src="/Himages/img_arrow_right.svg" alt="arrowright_five" className="h-6 w-6 cursor-pointer" />
           </div>
         </SubMenu>
       </Menu>
       <div className="flex flex-col items-start justify-start w-full mt-[170px] mb-[5px] mx-auto max-w-[189px]">
-        <Img src="//public/Himages/defaultNoData.png" alt="image_four" className="w-full object-cover" />
+        <Img src="/Himages/defaultNoData.png" alt="image_four" className="w-full object-cover" />
         <Text size="s" as="p" className="mt-[23px] ml-px">
           Bistro Restaurant Admin{" "}
         </Text>
@@ -98,7 +98,7 @@ export default function Sidebar1({ ...props }) {
           <Text size="xs" as="p">
             Made with
           </Text>
-          <Img src="//public/Himages/img_heart.svg" alt="heart_one" className="h-3" />
+          <Img src="/Himages/img_heart.svg" alt="heart_one" className="h-3" />
           <Text size="xs" as="p">
             by Bistro
           </Text>

@@ -37,11 +37,11 @@ export default function Header({ ...props }) {
             <Img src="/Cimages/img_group_259.svg" />
           </Button>
           <Img src={props.userdetails.photoURL} alt="circleimage" className="h-10 w-10 rounded-[50%]" />
-          <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
+          {/* <Button color="gray_50" size="lg" className=" h-20 w-[13vw] flex items-center justify-center font-medium overflow-hidden ml-2 text-gray-900 border border-black px-10 py-6">
             <Link to={`/${props.userdetails.uid}/addproduct`}>
               Register as a Farmer
             </Link>
-          </Button>
+          </Button> */}
         </div>
       </div>
     </header>
