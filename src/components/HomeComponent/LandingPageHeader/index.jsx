@@ -99,7 +99,6 @@ const LandingPageHeader = (props) => {
               Log in
             </Button>
             <Button
-              onClick={() => setShowForm(true)}
               className="bg-gray-900 cursor-pointer font-manrope font-semibold px-5 py-3 whitespace-nowrap rounded-[10px] text-base text-center text-white-A700 w-full"
             >
               <Link to={"/Signup"}>Sign up</Link>

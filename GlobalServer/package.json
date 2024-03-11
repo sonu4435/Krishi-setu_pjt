@@ -8,5 +8,12 @@
     "multer": "^1.4.5-lts.1",
     "path": "^0.12.7",
     "stripe": "^14.20.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.1.4"
   }
 }

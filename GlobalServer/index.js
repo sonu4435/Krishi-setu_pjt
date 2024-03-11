@@ -8,14 +8,13 @@ const stripe = require("stripe")(
   "sk_test_51OGy2xSCMQu8LsRZK4hmg1Cz3YCIWSCOG38mzizqGYTj52sWM0uVJwPfLlgijfVinWCq9nM0xdDdlggnzzZEBuxk00AHP9sj5T"
 );
 
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 try {
   mongoose.connect(
-    "mongodb+srv://soumya:soumya@bug-busters.n6lkkkq.mongodb.net/Krishi-setu"
+    "mongodb+srv://soumya:soumya@bug-busters.n6lkkkq.mongodb.net/?retryWrites=true&w=majority&appName=bug-busters"
   );
 } catch (error) {
   toast.error("Error while connecting to server");
@@ -48,7 +47,7 @@ app.get("/:uid/dashboard", (req, res) => {
 app.post("/:uid/home", async (req, res) => {
   const { uid } = req.params;
 
-  const YOUR_DOMAIN = `http://localhost:5173/${uid}/home` // Change this to your actual domain
+  const YOUR_DOMAIN = `http://localhost:5173/${uid}/home`; // Change this to your actual domain
   try {
     const product = req.body.products;
 
@@ -106,13 +105,11 @@ app.post("/:uid/home/productDetails", async (req, res) => {
   }
 });
 
-
 app.get("/:uid/home/productDetails", (req, res) => {
   const { uid } = req.params;
-  CartModel
-    .find({
-      uid
-    })
+  CartModel.find({
+    uid,
+  })
     .then(function (cart) {
       res.json(cart);
     })
@@ -132,7 +129,7 @@ app.post("/:uid/home/productDetails/cart", async (req, res) => {
   try {
     // Find products by their IDs
     const products = await userModel.find({
-      _id: productIds // Find products where the ID is in the productIds array
+      _id: productIds, // Find products where the ID is in the productIds array
     });
 
     res.json(products);
@@ -142,6 +139,6 @@ app.post("/:uid/home/productDetails/cart", async (req, res) => {
   }
 });
 
-app.listen(3001, () => { 
+app.listen(3001, () => {
   console.log("server listening");
 });
